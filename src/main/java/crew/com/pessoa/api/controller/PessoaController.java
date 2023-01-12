@@ -5,6 +5,7 @@ import crew.com.pessoa.api.request.PessoaRequest;
 import crew.com.pessoa.api.response.PessoaResponse;
 import crew.com.pessoa.domain.entity.Pessoa;
 import crew.com.pessoa.domain.service.PessoaService;
+import jakarta.servlet.annotation.HttpConstraint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,9 +48,9 @@ public class PessoaController {
         return ResponseEntity.status(HttpStatus.OK).body(pessoaResponse);
     }
 
-    @PutMapping
-    public ResponseEntity<PessoaResponse> update(@RequestBody Pessoa pessoa) {
-        Pessoa pessoaSaved = pessoaService.save(pessoa);
+    @PutMapping("/{id}")
+    public ResponseEntity<PessoaResponse> update(@PathVariable Long id,@RequestBody Pessoa pessoa) {
+        Pessoa pessoaSaved = pessoaService.update(id,pessoa);
         PessoaResponse pessoaResponse = mapper.toPessoaResponse(pessoaSaved);
         return ResponseEntity.status(HttpStatus.OK).body(pessoaResponse);
     }
