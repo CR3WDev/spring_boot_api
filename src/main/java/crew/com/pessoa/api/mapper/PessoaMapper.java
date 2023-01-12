@@ -3,35 +3,31 @@ package crew.com.pessoa.api.mapper;
 import crew.com.pessoa.api.request.PessoaRequest;
 import crew.com.pessoa.api.response.PessoaResponse;
 import crew.com.pessoa.domain.entity.Pessoa;
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+@Component
+@RequiredArgsConstructor
 public class PessoaMapper {
 
-    public static Pessoa toPessoa(PessoaRequest request) {
-        Pessoa pessoa = new Pessoa();
-        pessoa.setNome(request.getNome());
-        pessoa.setData_de_nascimento(request.getData_de_nascimento());
-        pessoa.setEndereco_principal_id(request.getEndereco_principal_id());
-        return pessoa;
+    private final ModelMapper mapper;
+
+    public Pessoa toPessoa(PessoaRequest request) {
+        return mapper.map(request, Pessoa.class);
+    }
+    public PessoaResponse toPessoaResponse(Pessoa pessoa) {
+        return mapper.map(pessoa,PessoaResponse.class);
     }
 
-    public static PessoaResponse toPessoaResponse(Pessoa pessoa) {
-        PessoaResponse response = new PessoaResponse();
-        response.setId(pessoa.getId());
-        response.setNome(pessoa.getNome());
-        response.setData_de_nascimento(pessoa.getData_de_nascimento());
-        response.setEndereco_principal_id(pessoa.getEndereco_principal_id());
-        return response;
-    }
-
-    public static List<PessoaResponse> toPessoaResponseList(List<Pessoa> pessoas) {
-        List<PessoaResponse> responses= new ArrayList<>();
-        for(Pessoa pessoa : pessoas) {
-            responses.add(toPessoaResponse(pessoa));
-        }
-        return responses;
+    public List<PessoaResponse> toPessoaResponseList(List<Pessoa> pessoas) {
+        return pessoas.stream()
+                .map(this::toPessoaResponse)
+                .collect(Collectors.toList());
     }
 
 }

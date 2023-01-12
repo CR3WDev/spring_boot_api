@@ -19,19 +19,20 @@ import java.util.Optional;
 public class PessoaController {
 
     private final PessoaService pessoaService;
+    private final PessoaMapper mapper;
 
     @PostMapping
     public ResponseEntity<PessoaResponse> save(@RequestBody PessoaRequest request) {
-        Pessoa pessoa = PessoaMapper.toPessoa(request);
+        Pessoa pessoa = mapper.toPessoa(request);
         Pessoa pessoaSaved = pessoaService.save(pessoa);
-        PessoaResponse pessoaResponse = PessoaMapper.toPessoaResponse(pessoa);
+        PessoaResponse pessoaResponse = mapper.toPessoaResponse(pessoa);
         return ResponseEntity.status(HttpStatus.CREATED).body(pessoaResponse);
     }
 
     @GetMapping
     public ResponseEntity<List<PessoaResponse>> findAll() {
         List<Pessoa> pessoas = pessoaService.finAll();
-        List<PessoaResponse> pessoasResponses = PessoaMapper.toPessoaResponseList(pessoas);
+        List<PessoaResponse> pessoasResponses = mapper.toPessoaResponseList(pessoas);
         return ResponseEntity.status(HttpStatus.OK).body(pessoasResponses);
     }
 
@@ -42,14 +43,14 @@ public class PessoaController {
             return ResponseEntity.notFound().build();
         }
         Pessoa pessoa = optPessoa.get();
-        PessoaResponse pessoaResponse = PessoaMapper.toPessoaResponse(pessoa);
+        PessoaResponse pessoaResponse = mapper.toPessoaResponse(pessoa);
         return ResponseEntity.status(HttpStatus.OK).body(pessoaResponse);
     }
 
     @PutMapping
     public ResponseEntity<PessoaResponse> update(@RequestBody Pessoa pessoa) {
         Pessoa pessoaSaved = pessoaService.save(pessoa);
-        PessoaResponse pessoaResponse = PessoaMapper.toPessoaResponse(pessoaSaved);
+        PessoaResponse pessoaResponse = mapper.toPessoaResponse(pessoaSaved);
         return ResponseEntity.status(HttpStatus.OK).body(pessoaResponse);
     }
 
