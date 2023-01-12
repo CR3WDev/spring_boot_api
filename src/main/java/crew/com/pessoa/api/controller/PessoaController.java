@@ -29,25 +29,28 @@ public class PessoaController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Pessoa>> findAll() {
+    public ResponseEntity<List<PessoaResponse>> findAll() {
         List<Pessoa> pessoas = pessoaService.finAll();
-        return ResponseEntity.status(HttpStatus.OK).body(pessoas);
+        List<PessoaResponse> pessoasResponses = PessoaMapper.toPessoaResponseList(pessoas);
+        return ResponseEntity.status(HttpStatus.OK).body(pessoasResponses);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Pessoa> findById(@PathVariable Long id) {
+    public ResponseEntity<PessoaResponse> findById(@PathVariable Long id) {
         Optional<Pessoa> optPessoa = pessoaService.findById(id);
         if (optPessoa.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         Pessoa pessoa = optPessoa.get();
-        return ResponseEntity.status(HttpStatus.OK).body(pessoa);
+        PessoaResponse pessoaResponse = PessoaMapper.toPessoaResponse(pessoa);
+        return ResponseEntity.status(HttpStatus.OK).body(pessoaResponse);
     }
 
     @PutMapping
-    public ResponseEntity<Pessoa> update(@RequestBody Pessoa pessoa) {
+    public ResponseEntity<PessoaResponse> update(@RequestBody Pessoa pessoa) {
         Pessoa pessoaSaved = pessoaService.save(pessoa);
-        return ResponseEntity.status(HttpStatus.OK).body(pessoaSaved);
+        PessoaResponse pessoaResponse = PessoaMapper.toPessoaResponse(pessoaSaved);
+        return ResponseEntity.status(HttpStatus.OK).body(pessoaResponse);
     }
 
     @DeleteMapping("/{id}")

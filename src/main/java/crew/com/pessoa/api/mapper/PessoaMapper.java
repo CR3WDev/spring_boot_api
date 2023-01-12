@@ -4,6 +4,9 @@ import crew.com.pessoa.api.request.PessoaRequest;
 import crew.com.pessoa.api.response.PessoaResponse;
 import crew.com.pessoa.domain.entity.Pessoa;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PessoaMapper {
 
     public static Pessoa toPessoa(PessoaRequest request) {
@@ -22,4 +25,13 @@ public class PessoaMapper {
         response.setEndereco_principal_id(pessoa.getEndereco_principal_id());
         return response;
     }
+
+    public static List<PessoaResponse> toPessoaResponseList(List<Pessoa> pessoas) {
+        List<PessoaResponse> responses= new ArrayList<>();
+        for(Pessoa pessoa : pessoas) {
+            responses.add(toPessoaResponse(pessoa));
+        }
+        return responses;
+    }
+
 }
