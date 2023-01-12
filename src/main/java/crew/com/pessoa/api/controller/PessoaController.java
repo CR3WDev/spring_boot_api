@@ -1,6 +1,8 @@
 package crew.com.pessoa.api.controller;
 
-import com.electronwill.nightconfig.core.conversion.Path;
+import crew.com.pessoa.api.mapper.PessoaMapper;
+import crew.com.pessoa.api.request.PessoaRequest;
+import crew.com.pessoa.api.response.PessoaResponse;
 import crew.com.pessoa.domain.entity.Pessoa;
 import crew.com.pessoa.domain.service.PessoaService;
 import lombok.RequiredArgsConstructor;
@@ -19,11 +21,11 @@ public class PessoaController {
     private final PessoaService pessoaService;
 
     @PostMapping
-    public ResponseEntity<Pessoa> save(@RequestBody Pessoa pessoa) {
-        System.out.println("Oi");
-        System.out.println(pessoa);
+    public ResponseEntity<PessoaResponse> save(@RequestBody PessoaRequest request) {
+        Pessoa pessoa = PessoaMapper.toPessoa(request);
         Pessoa pessoaSaved = pessoaService.save(pessoa);
-        return ResponseEntity.status(HttpStatus.CREATED).body(pessoaSaved);
+        PessoaResponse pessoaResponse = PessoaMapper.toPessoaResponse(pessoa);
+        return ResponseEntity.status(HttpStatus.CREATED).body(pessoaResponse);
     }
 
     @GetMapping
@@ -35,7 +37,7 @@ public class PessoaController {
     @GetMapping("/{id}")
     public ResponseEntity<Pessoa> findById(@PathVariable Long id) {
         Optional<Pessoa> optPessoa = pessoaService.findById(id);
-        if(optPessoa.isEmpty()) {
+        if (optPessoa.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         Pessoa pessoa = optPessoa.get();
