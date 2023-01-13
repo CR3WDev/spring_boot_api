@@ -22,4 +22,8 @@ public class Pessoa {
     private String nome;
     private LocalDateTime data_de_nascimento;
     private Long endereco_principal_id;
+
+    @OneToMany
+    @JoinColumn(name = "pessoa_id")
+    private List<Endereco> enderecos;
 }

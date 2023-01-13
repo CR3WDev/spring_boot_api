@@ -18,4 +18,5 @@ public class Endereco {
     private String cidade;
 
     private Long pessoa_id;
+
 }

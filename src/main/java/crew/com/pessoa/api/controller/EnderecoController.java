@@ -18,7 +18,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/endereco")
+@RequestMapping("/endereco/pessoa")
 public class EnderecoController {
 
 
@@ -35,8 +35,8 @@ public class EnderecoController {
 
     @GetMapping("/{id}")
     public ResponseEntity<List<EnderecoResponse>> findById(@PathVariable Long id) {
-        Optional<Endereco> optEndereco = enderecoService.findById(id);
-        if (optEndereco.isEmpty()) {
+        Optional<Pessoa> optPessoa = pessoaService.findById(id);
+        if (optPessoa.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         List<Endereco> enderecos = enderecoService.findAllByPessoaId(id);
