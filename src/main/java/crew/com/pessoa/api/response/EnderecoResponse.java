@@ -18,6 +18,4 @@ public class EnderecoResponse {
     private String cep;
     private String numero;
     private String cidade;
-
-    private PessoaResponse pessoa;
 }

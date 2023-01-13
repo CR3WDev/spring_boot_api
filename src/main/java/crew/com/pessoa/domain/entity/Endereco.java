@@ -16,6 +16,6 @@ public class Endereco {
     private String cep;
     private String numero;
     private String cidade;
-    @ManyToOne
-    private Pessoa pessoa;
+
+    private Long pessoa_id;
 }

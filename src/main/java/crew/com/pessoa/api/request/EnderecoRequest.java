@@ -18,7 +18,4 @@ public class EnderecoRequest {
     private String numero;
     @NotBlank
     private String cidade;
-
-    @NotNull
-    private Long pessoaId;
 }

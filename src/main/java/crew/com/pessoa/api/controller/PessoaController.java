@@ -1,9 +1,13 @@
 package crew.com.pessoa.api.controller;
 
+import crew.com.pessoa.api.mapper.EnderecoMapper;
 import crew.com.pessoa.api.mapper.PessoaMapper;
 import crew.com.pessoa.api.request.PessoaRequest;
+import crew.com.pessoa.api.response.EnderecoResponse;
 import crew.com.pessoa.api.response.PessoaResponse;
+import crew.com.pessoa.domain.entity.Endereco;
 import crew.com.pessoa.domain.entity.Pessoa;
+import crew.com.pessoa.domain.service.EnderecoService;
 import crew.com.pessoa.domain.service.PessoaService;
 import jakarta.servlet.annotation.HttpConstraint;
 import jakarta.validation.Valid;
@@ -27,7 +31,7 @@ public class PessoaController {
     public ResponseEntity<PessoaResponse> save(@Valid @RequestBody PessoaRequest request) {
         Pessoa pessoa = mapper.toPessoa(request);
         Pessoa pessoaSaved = pessoaService.save(pessoa);
-        PessoaResponse pessoaResponse = mapper.toPessoaResponse(pessoa);
+        PessoaResponse pessoaResponse = mapper.toPessoaResponse(pessoaSaved);
         return ResponseEntity.status(HttpStatus.CREATED).body(pessoaResponse);
     }
 
@@ -51,6 +55,10 @@ public class PessoaController {
 
     @PutMapping("/{id}")
     public ResponseEntity<PessoaResponse> update(@PathVariable Long id,@RequestBody Pessoa pessoa) {
+        Optional<Pessoa> optPessoa = pessoaService.findById(id);
+        if (optPessoa.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
         Pessoa pessoaSaved = pessoaService.update(id,pessoa);
         PessoaResponse pessoaResponse = mapper.toPessoaResponse(pessoaSaved);
         return ResponseEntity.status(HttpStatus.OK).body(pessoaResponse);

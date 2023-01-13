@@ -25,11 +25,11 @@ public class EnderecoService {
         return enderecoRepository.findById(id);
     }
 
-    public Endereco save(Endereco endereco) {
-        Optional<Pessoa> optPessoa = pessoaService.findById(endereco.getPessoa().getId());
-        if(optPessoa.isEmpty()) {
-            throw new RuntimeException("Pessoa não encontrada");
-        }
+    public Endereco save(Long pessoa_id,Endereco endereco) {
+        endereco.setPessoa_id(pessoa_id);
         return enderecoRepository.save(endereco);
+    }
+    public List<Endereco> findAllByPessoaId(Long id) {
+        return enderecoRepository.findAllByPessoaId(id);
     }
 }
