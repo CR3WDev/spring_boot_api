@@ -6,6 +6,7 @@ import crew.com.pessoa.api.response.PessoaResponse;
 import crew.com.pessoa.domain.entity.Pessoa;
 import crew.com.pessoa.domain.service.PessoaService;
 import jakarta.servlet.annotation.HttpConstraint;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ public class PessoaController {
     private final PessoaMapper mapper;
 
     @PostMapping
-    public ResponseEntity<PessoaResponse> save(@RequestBody PessoaRequest request) {
+    public ResponseEntity<PessoaResponse> save(@Valid @RequestBody PessoaRequest request) {
         Pessoa pessoa = mapper.toPessoa(request);
         Pessoa pessoaSaved = pessoaService.save(pessoa);
         PessoaResponse pessoaResponse = mapper.toPessoaResponse(pessoa);
@@ -57,6 +58,10 @@ public class PessoaController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+        Optional<Pessoa> optPessoa = pessoaService.findById(id);
+        if (optPessoa.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
         pessoaService.deleteById(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

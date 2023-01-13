@@ -2,9 +2,9 @@ package crew.com.pessoa.domain.service;
 
 import crew.com.pessoa.domain.entity.Pessoa;
 import crew.com.pessoa.domain.repository.PessoaRepository;
-import crew.com.pessoa.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,12 +35,7 @@ public class PessoaService {
     }
 
     public Pessoa update(Long id, Pessoa pessoa) {
-        Optional<Pessoa> optPessoa = this.findById(id);
-        if (optPessoa.isEmpty()) {
-            throw new BusinessException("Paciente não cadastrado!");
-        }
         pessoa.setId(id);
-
         return save(pessoa);
     }
 
