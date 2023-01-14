@@ -40,15 +40,7 @@ public class PessoaService {
         if(optPessoa.isEmpty()) {
             throw new RuntimeException("TEste");
         }
-        if(pessoa.getNome() != null) {
-            optPessoa.get().setNome(pessoa.getNome());
-        }
-        if(pessoa.getData_de_nascimento() != null) {
-            optPessoa.get().setData_de_nascimento(pessoa.getData_de_nascimento());
-        }
-        if(pessoa.getEndereco_principal_id() != null) {
-            optPessoa.get().setEndereco_principal_id(pessoa.getEndereco_principal_id());
-        }
+        BeanUtils.copyProperties(pessoa, optPessoa.get(),"enderecos","id");
         return save(optPessoa.get());
     }
 
