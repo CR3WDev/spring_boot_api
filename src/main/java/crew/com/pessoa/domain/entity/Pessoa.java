@@ -21,7 +21,7 @@ public class Pessoa {
     private Long id;
     private String nome;
     private LocalDateTime data_de_nascimento;
-    private Long endereco_principal_id;
+    private Long main_endereco_id;
 
     @OneToMany
     @JoinColumn(name = "pessoa_id")

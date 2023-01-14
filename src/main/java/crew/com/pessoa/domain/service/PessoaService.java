@@ -37,10 +37,8 @@ public class PessoaService {
 
     public Pessoa update(Long id, Pessoa pessoa) {
         Optional<Pessoa> optPessoa = findById(id);
-        if(optPessoa.isEmpty()) {
-            throw new RuntimeException("TEste");
-        }
-        BeanUtils.copyProperties(pessoa, optPessoa.get(),"enderecos","id");
+        if(optPessoa.isEmpty()) throw new RuntimeException("Pessoa não encontrada!");
+        BeanUtils.copyProperties(pessoa, optPessoa.get(),"enderecos","id","main_endereco_id");
         return save(optPessoa.get());
     }
 

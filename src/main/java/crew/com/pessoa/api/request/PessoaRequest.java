@@ -18,6 +18,6 @@ public class PessoaRequest {
     @NotBlank(message = "Nome da pessoa é obrigatório")
     private String nome;
     private LocalDateTime data_de_nascimento;
-    private Long endereco_principal_id;
+    private Long main_endereco_id;
 }
 

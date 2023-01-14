@@ -18,7 +18,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/endereco/pessoa")
+@RequestMapping("/endereco")
 public class EnderecoController {
 
 
@@ -33,25 +33,32 @@ public class EnderecoController {
         return ResponseEntity.status(HttpStatus.OK).body(enderecosResponse);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<List<EnderecoResponse>> findById(@PathVariable Long id) {
-        Optional<Pessoa> optPessoa = pessoaService.findById(id);
-        if (optPessoa.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        List<Endereco> enderecos = enderecoService.findAllByPessoaId(id);
+    @GetMapping("/pessoa/{pessoaId}")
+    public ResponseEntity<List<EnderecoResponse>> findById(@PathVariable Long pessoaId) {
+        Optional<Pessoa> optPessoa = pessoaService.findById(pessoaId);
+        if (optPessoa.isEmpty()) return ResponseEntity.notFound().build();
+        List<Endereco> enderecos = enderecoService.findAllByPessoaId(pessoaId);
         List<EnderecoResponse> enderecosResponse = mapper.toEnderecoResponseList(enderecos);
         return ResponseEntity.status(HttpStatus.OK).body(enderecosResponse);
     }
 
-    @PostMapping("/{pessoa_id}")
-    public ResponseEntity<EnderecoResponse> save(@PathVariable Long pessoa_id,@Valid @RequestBody EnderecoRequest request) {
-        Optional<Pessoa> optPessoa = pessoaService.findById(pessoa_id);
-        if(optPessoa.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
+    @GetMapping("/main/pessoa/{pessoaId}")
+    public ResponseEntity<List<EnderecoResponse>> findMainEndereco(@PathVariable Long pessoaId) {
+        Optional<Pessoa> optPessoa = pessoaService.findById(pessoaId);
+        if (optPessoa.isEmpty()) return ResponseEntity.notFound().build();
+        Long mainEnderecoId = optPessoa.get().getMain_endereco_id();
+        List<Endereco> endereco = enderecoService.findMainEndereco(pessoaId, mainEnderecoId);
+        if (endereco.size() == 0) return ResponseEntity.notFound().build();
+        List<EnderecoResponse> enderecoResponse = mapper.toEnderecoResponseList(endereco);
+        return ResponseEntity.status(HttpStatus.OK).body(enderecoResponse);
+    }
+
+    @PostMapping("/{pessoaId}")
+    public ResponseEntity<EnderecoResponse> save(@PathVariable Long pessoaId, @Valid @RequestBody EnderecoRequest request) {
+        Optional<Pessoa> optPessoa = pessoaService.findById(pessoaId);
+        if (optPessoa.isEmpty()) return ResponseEntity.notFound().build();
         Endereco endereco = mapper.toEndereco(request);
-        Endereco enderecoSaved = enderecoService.save(pessoa_id,endereco);
+        Endereco enderecoSaved = enderecoService.save(pessoaId, endereco);
         EnderecoResponse enderecoResponse = mapper.toEnderecoResponse(enderecoSaved);
         return ResponseEntity.status(HttpStatus.CREATED).body(enderecoResponse);
     }

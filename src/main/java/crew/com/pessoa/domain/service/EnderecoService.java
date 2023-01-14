@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @Service
 @Transactional
@@ -25,11 +26,15 @@ public class EnderecoService {
         return enderecoRepository.findById(id);
     }
 
-    public Endereco save(Long pessoa_id,Endereco endereco) {
-        endereco.setPessoa_id(pessoa_id);
+    public Endereco save(Long pessoaId,Endereco endereco) {
+        endereco.setPessoa_id(pessoaId);
         return enderecoRepository.save(endereco);
     }
-    public List<Endereco> findAllByPessoaId(Long id) {
-        return enderecoRepository.findAllByPessoaId(id);
+    public List<Endereco> findAllByPessoaId(Long pessoaId) {
+        return enderecoRepository.findAllByPessoaId(pessoaId);
+    }
+    public List<Endereco> findMainEndereco(Long pessoaId,Long mainEnderecoId) {
+        return enderecoRepository.findMainEndereco(pessoaId,mainEnderecoId);
+
     }
 }

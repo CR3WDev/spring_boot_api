@@ -1,15 +1,10 @@
 package crew.com.pessoa.api.controller;
 
-import crew.com.pessoa.api.mapper.EnderecoMapper;
 import crew.com.pessoa.api.mapper.PessoaMapper;
 import crew.com.pessoa.api.request.PessoaRequest;
-import crew.com.pessoa.api.response.EnderecoResponse;
 import crew.com.pessoa.api.response.PessoaResponse;
-import crew.com.pessoa.domain.entity.Endereco;
 import crew.com.pessoa.domain.entity.Pessoa;
-import crew.com.pessoa.domain.service.EnderecoService;
 import crew.com.pessoa.domain.service.PessoaService;
-import jakarta.servlet.annotation.HttpConstraint;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -45,21 +40,17 @@ public class PessoaController {
     @GetMapping("/{id}")
     public ResponseEntity<PessoaResponse> findById(@PathVariable Long id) {
         Optional<Pessoa> optPessoa = pessoaService.findById(id);
-        if (optPessoa.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
+        if (optPessoa.isEmpty()) return ResponseEntity.notFound().build();
         Pessoa pessoa = optPessoa.get();
         PessoaResponse pessoaResponse = mapper.toPessoaResponse(pessoa);
         return ResponseEntity.status(HttpStatus.OK).body(pessoaResponse);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PessoaResponse> update(@PathVariable Long id,@RequestBody Pessoa pessoa) {
+    public ResponseEntity<PessoaResponse> update(@PathVariable Long id, @RequestBody Pessoa pessoa) {
         Optional<Pessoa> optPessoa = pessoaService.findById(id);
-        if (optPessoa.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        Pessoa pessoaSaved = pessoaService.update(id,pessoa);
+        if (optPessoa.isEmpty()) return ResponseEntity.notFound().build();
+        Pessoa pessoaSaved = pessoaService.update(id, pessoa);
         PessoaResponse pessoaResponse = mapper.toPessoaResponse(pessoaSaved);
         return ResponseEntity.status(HttpStatus.OK).body(pessoaResponse);
     }
@@ -67,9 +58,7 @@ public class PessoaController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         Optional<Pessoa> optPessoa = pessoaService.findById(id);
-        if (optPessoa.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
+        if (optPessoa.isEmpty()) return ResponseEntity.notFound().build();
         pessoaService.deleteById(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
