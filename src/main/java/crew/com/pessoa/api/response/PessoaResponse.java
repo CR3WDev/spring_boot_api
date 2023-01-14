@@ -18,5 +18,5 @@ public class PessoaResponse {
     private String nome;
     private LocalDateTime data_de_nascimento;
 
-    private List<Endereco> enderecos;
+    private List<EnderecoResponse> enderecos;
 }
