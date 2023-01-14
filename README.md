@@ -1,5 +1,5 @@
 # spring_boot_api
-Uma api feita em spring boot seguindo o clean code e com testes unitários
+Uma api feita em spring boot seguindo o clean code com DTO e swagger
 # TODO LIST AVALIAÇÃO ATTORNATUS
 
 - Criar uma pessoa (x)
