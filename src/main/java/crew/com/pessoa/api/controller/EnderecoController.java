@@ -2,6 +2,7 @@ package crew.com.pessoa.api.controller;
 
 import crew.com.pessoa.api.mapper.EnderecoMapper;
 import crew.com.pessoa.api.request.EnderecoRequest;
+import crew.com.pessoa.api.request.MainEnderecoRequest;
 import crew.com.pessoa.api.response.EnderecoResponse;
 import crew.com.pessoa.domain.entity.Endereco;
 import crew.com.pessoa.domain.entity.Pessoa;
@@ -53,7 +54,7 @@ public class EnderecoController {
         return ResponseEntity.status(HttpStatus.OK).body(enderecoResponse);
     }
 
-    @PostMapping("/{pessoaId}")
+    @PostMapping("/pessoa/{pessoaId}")
     public ResponseEntity<EnderecoResponse> save(@PathVariable Long pessoaId, @Valid @RequestBody EnderecoRequest request) {
         Optional<Pessoa> optPessoa = pessoaService.findById(pessoaId);
         if (optPessoa.isEmpty()) return ResponseEntity.notFound().build();
@@ -61,5 +62,13 @@ public class EnderecoController {
         Endereco enderecoSaved = enderecoService.save(pessoaId, endereco);
         EnderecoResponse enderecoResponse = mapper.toEnderecoResponse(enderecoSaved);
         return ResponseEntity.status(HttpStatus.CREATED).body(enderecoResponse);
+    }
+    @PutMapping("/main/pessoa/{pessoaId}")
+    public ResponseEntity<EnderecoResponse> saveMainEndereco(@PathVariable Long pessoaId,@Valid @RequestBody MainEnderecoRequest request) {
+        Optional<Pessoa> optPessoa = pessoaService.findById(pessoaId);
+        if (optPessoa.isEmpty()) return ResponseEntity.notFound().build();
+        Endereco mainEnderecoSaved = enderecoService.saveMainEndereco(pessoaId,request.getMain_endereco_id());
+        EnderecoResponse enderecoResponse = mapper.toEnderecoResponse(mainEnderecoSaved);
+        return ResponseEntity.status(HttpStatus.OK).body(enderecoResponse);
     }
 }
