@@ -10,7 +10,7 @@ Uma api feita em spring boot seguindo o clean code com DTO
 - Listar endereços da pessoa (x)
 - Publicar no github (x)
 - Poder informar qual endereço é o principal da pessoa (x)
-- Responder as 2 questões com o código público
+- Responder as 2 questões com o código público (x)
 
 # Opcionais
 
