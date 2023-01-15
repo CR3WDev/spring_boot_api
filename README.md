@@ -15,4 +15,4 @@ Uma api feita em spring boot seguindo o clean code com DTO e swagger
 # Opcionais
 
 - Colocar em núvem
-- Testes
+- Testes (x) Obs: Feito testes manuais com swagger e teste unitários JUNIT
