@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.With;
+import org.hibernate.annotations.Cascade;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -23,7 +24,7 @@ public class Pessoa {
     private LocalDateTime data_de_nascimento;
     private Long main_endereco_id;
 
-    @OneToMany
-    @JoinColumn(name = "pessoa_id")
+    @OneToMany(cascade=CascadeType.REMOVE, fetch=FetchType.EAGER,mappedBy="pessoa_id", orphanRemoval=true)
+    @Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     private List<Endereco> enderecos;
 }
